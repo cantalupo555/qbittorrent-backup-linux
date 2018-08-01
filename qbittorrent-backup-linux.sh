@@ -10,4 +10,4 @@ mkdir qBittorrent-Backup-Linux/qBittorrent/
 mkdir qBittorrent-Backup-Linux/BT_backup/
 cp -R ~/.config/qBittorrent/* ~/qBittorrent-Backup-Linux/qBittorrent
 cp -R ~/.local/share/data/qBittorrent/BT_backup/* ~/qBittorrent-Backup-Linux/BT_backup
-zip -r -0 qBittorrent-Backup-Linux/
+zip -r -0 qBittorrent-Backup-Linux.zip qBittorrent-Backup-Linux/
