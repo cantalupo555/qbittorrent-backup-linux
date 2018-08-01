@@ -5,7 +5,9 @@ if [ $UID -ne 0 ]; then
     exit 1
 fi
 cd ~
-mkdir qBittorrent/
-mkdir BT_backup/
-cp -R ~/.config/qBittorrent/* ~/qBittorrent
-cp -R ~/.local/share/data/qBittorrent/BT_backup/* ~/BT_backup
+mkdir qBittorrent-Backup-Linux/
+mkdir qBittorrent-Backup-Linux/qBittorrent/
+mkdir qBittorrent-Backup-Linux/BT_backup/
+cp -R ~/.config/qBittorrent/* ~/qBittorrent-Backup-Linux/qBittorrent
+cp -R ~/.local/share/data/qBittorrent/BT_backup/* ~/qBittorrent-Backup-Linux/BT_backup
+zip -r -0 qBittorrent-Backup-Linux/
