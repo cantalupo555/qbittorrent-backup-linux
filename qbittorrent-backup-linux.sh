@@ -40,6 +40,7 @@ do
 				cp -R ~/.local/share/data/qBittorrent/BT_backup/* ~/qBittorrent-Backup-Linux/BT_backup
 				zip -r -0 qBittorrent-Backup-Linux.zip qBittorrent-Backup-Linux/
 				mv qBittorrent-Backup-Linux.zip ~/Downloads
+				rm -rf 
 				echo ""
 				echo "-------------------------------------------------------------------------"
 				echo "-------------------------------------------------------------------------"
@@ -54,11 +55,20 @@ do
 
 		2) while true; do
 				clear
+				cd ~/Downloads
+				unzip qBittorrent-Backup-Linux.zip
+				cd qBittorrent-Backup-Linux/
+				rm -rf ~/.config/qBittorrent
+				rm -rf ~/.local/share/data/qBittorrent/BT_backup
+				mv qBittorrent/ ~/.config/
+				mv BT_backup/ ~/local/share/data/qBittorrent/
+				cd ..
+				rm -rf qBittorrent-Backup-Linux
 				echo ""
 				echo "-------------------------------------------------------------------------"
 				echo "-------------------------------------------------------------------------"
 				echo "-------------------------------------------------------------------------"
-				echo "Installation Complete"
+				echo "Process completed"
 				o1
 				if [ -z "$v" ]; then
 				break
