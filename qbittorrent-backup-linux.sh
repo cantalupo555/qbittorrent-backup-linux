@@ -21,8 +21,8 @@ do
 	echo "|                                                                       |"
 	echo "|                            @cantalupo555                              |"
 	echo "|                                                                       |"
-	echo "| 1 - Install Firefox Nightly                                           |"
-	echo "| 2 - Uninstall Firefox Nightly                                         |"
+	echo "| 1 - Backup qBittorrent                                                |"
+	echo "| 2 - Restore qBittorrent                                               |"
 	echo "| 3 - Exit                                                              |"
 	echo "|_______________________________________________________________________|"
 	echo ""
@@ -39,3 +39,53 @@ do
 				cp -R ~/.config/qBittorrent/* ~/qBittorrent-Backup-Linux/qBittorrent
 				cp -R ~/.local/share/data/qBittorrent/BT_backup/* ~/qBittorrent-Backup-Linux/BT_backup
 				zip -r -0 qBittorrent-Backup-Linux.zip qBittorrent-Backup-Linux/
+				mv qBittorrent-Backup-Linux.zip ~/Downloads
+				echo ""
+				echo "-------------------------------------------------------------------------"
+				echo "-------------------------------------------------------------------------"
+				echo "-------------------------------------------------------------------------"
+				echo "Process completed"
+				o1
+				if [ -z "$v" ]; then
+				break
+				fi
+				done
+				;;
+
+		2) while true; do
+				clear
+				echo ""
+				echo "-------------------------------------------------------------------------"
+				echo "-------------------------------------------------------------------------"
+				echo "-------------------------------------------------------------------------"
+				echo "Installation Complete"
+				o1
+				if [ -z "$v" ]; then
+				break
+				fi
+				done
+				;;
+		
+		3)
+				clear
+				echo "-------------------------------------------------------------------------"
+				echo "-------------------------------------------------------------------------"
+				echo "-------------------------------------------------------------------------"
+				echo "Exit..."
+				exit
+				sleep
+				clear
+				break
+				;;
+
+		*)
+				clear		
+				echo "-------------------------------------------------------------------------"
+				echo "-------------------------------------------------------------------------"
+				echo "-------------------------------------------------------------------------"
+				echo "Invalid Option!"
+				sleep 1
+				echo ""
+				;;
+	esac
+done
