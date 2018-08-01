@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ $UID -ne 0 ]; then
+if [ $UID -ne 1000 ]; then
     echo "Install failed: you must be logged in as 'root' to install."
     echo "Use command 'sudo -i', then enter root password and then try again."
     exit 1
