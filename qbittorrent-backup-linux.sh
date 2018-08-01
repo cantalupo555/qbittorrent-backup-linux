@@ -6,6 +6,6 @@ if [ $UID -ne 0 ]; then
 fi
 cd ~
 mkdir qBittorrent/
-mkdir 
+mkdir BT_backup/
 cp -R ~/.config/qBittorrent/* ~/qBittorrent
-cp~/.local/share/data/qBittorrent/BT_backup/
+cp -R ~/.local/share/data/qBittorrent/BT_backup/* ~/BT_backup
