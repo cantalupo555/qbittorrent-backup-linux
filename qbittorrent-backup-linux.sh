@@ -1,6 +1,6 @@
 #!/bin/bash
 if [ $UID -ne 1000 ]; then
-    echo "Install failed: you must be logged in as 'root' to install."
+    echo "Install failed: you can not be logged in as 'root'"
     exit 1
 fi
 o1(){
