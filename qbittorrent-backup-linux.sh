@@ -35,11 +35,13 @@ do
 				mkdir qBittorrent-Backup-Linux/
 				mkdir qBittorrent-Backup-Linux/qBittorrent/
 				mkdir qBittorrent-Backup-Linux/BT_backup/
+				mkdir qBittorrent-Backup-Linux/logs/
 				cp -R ~/.config/qBittorrent/* ~/qBittorrent-Backup-Linux/qBittorrent
 				cp -R ~/.local/share/data/qBittorrent/BT_backup/* ~/qBittorrent-Backup-Linux/BT_backup
+				cp -R ~/.local/share/data/qBittorrent/logs/* ~/qBittorrent-Backup-Linux/logs
 				zip -r -0 qBittorrent-Backup-Linux.zip qBittorrent-Backup-Linux/
 				mv qBittorrent-Backup-Linux.zip ~/Downloads
-				rm -rf 
+				rm -rf ~/qBittorrent-Backup-Linux/
 				echo ""
 				echo "-------------------------------------------------------------------------"
 				echo "-------------------------------------------------------------------------"
@@ -59,10 +61,12 @@ do
 				cd qBittorrent-Backup-Linux/
 				rm -rf ~/.config/qBittorrent
 				rm -rf ~/.local/share/data/qBittorrent/BT_backup
+				rm -rf ~/.local/share/data/qBittorrent/logs
 				mv qBittorrent/ ~/.config/
 				mv BT_backup/ ~/.local/share/data/qBittorrent/
+				mv logs/ ~/.local/share/data/qBittorrent/
 				cd ..
-				rm -rf qBittorrent-Backup-Linux
+				rm -rf qBittorrent-Backup-Linux/
 				echo ""
 				echo "-------------------------------------------------------------------------"
 				echo "-------------------------------------------------------------------------"
