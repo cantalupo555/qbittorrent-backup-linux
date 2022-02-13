@@ -15,5 +15,13 @@ Then run it:
 `sudo ./qbittorrent-backup-linux.sh`
 
 ## Screenshot
+
 ![](https://i.imgur.com/TADy3tk.png)
-![](https://i.imgur.com/CoFK5Sj.png)
+
+## Video
+[![qbittorrent-backup-linux](https://i.imgur.com/9NypMuC.png)](https://www.youtube.com/watch?v=MoweTpbMKNU "qbittorrent-backup-linux")
+
+
+## A problem?
+
+Please fill a report [here](https://github.com/cantalupo555/qbittorrent-backup-linux/issues/new)
