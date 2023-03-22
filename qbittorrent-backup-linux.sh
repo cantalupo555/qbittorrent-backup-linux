@@ -1,7 +1,8 @@
 #!/bin/bash
-# cantalupo555
+# cantalupo555/vdbhb59
 
 # Check requirements
+# "comment out with # or delete" the locate package which your OS does not need. Example PopOS (Debian) although has mlocate installed, but still needs locate to work.
 if [ $UID -ne 0 ]; then
 	echo -e "\n\033[1;31mRun failed. Try again using:\033[0m"
 	 echo "sudo ./qbittorrent-backup-linux.sh"
@@ -15,8 +16,16 @@ elif [ ! -f /usr/bin/unzip ]; then
 	echo "sudo apt install unzip"
 	exit 1
 elif [ ! -f /usr/bin/mlocate ]; then
-	echo -e "\n\033[1;31mPlease install the 'locate' package.\033[0m"
+	echo -e "\n\033[1;31mPlease install the 'mlocate' package.\033[0m"
 	echo "sudo apt install mlocate"
+	exit 1
+elif [ ! -f /usr/bin/plocate ]; then
+	echo -e "\n\033[1;31mPlease install the 'plocate' package.\033[0m"
+	echo "sudo apt install plocate"
+	exit 1
+elif [ ! -f /usr/bin/locate ]; then
+	echo -e "\n\033[1;31mPlease install the 'locate' package.\033[0m"
+	echo "sudo apt install locate"
 	exit 1
 elif [ ! -f /usr/bin/qbittorrent ]; then
 	echo -e "\n\033[1;31mqBittorrent installation not found.\033[0m"
