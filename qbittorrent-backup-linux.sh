@@ -16,18 +16,10 @@ elif [ ! -f /usr/bin/unzip ]; then
     echo -e "\n\033[1;31mPlease install the 'unzip' package.\033[0m"
     echo "sudo apt install unzip"
     exit 1
-elif [ ! -f /usr/bin/mlocate ]; then
-	  echo -e "\n\033[1;31mPlease install the 'mlocate' package.\033[0m"
-	  echo "sudo apt install mlocate"
-	  exit 1
 elif [ ! -f /usr/bin/plocate ]; then
     echo -e "\n\033[1;31mPlease install the 'plocate' package.\033[0m"
     echo "sudo apt install plocate"
     exit 1
-elif [ ! -f /usr/bin/locate ]; then
-	  echo -e "\n\033[1;31mPlease install the 'locate' package.\033[0m"
-	  echo "sudo apt install locate"
-	  exit 1
 elif [ ! -f /usr/bin/qbittorrent ]; then
     echo -e "\n\033[1;31mqBittorrent installation not found.\033[0m"
     exit 1
@@ -64,13 +56,13 @@ do
 
             # Check config directory
             sudo updatedb
-            dirCheck=$(locate *config/qBittorrent/qBittorrent.conf)
+            dirCheck=$(plocate *config/qBittorrent/qBittorrent.conf)
             if [ -z $dirCheck ]; then
                 echo -e "\033[1;31mqBittorrent configuration not found, launch qBittorrent client before running this script.\033[0m\n"
                 exit 1
             else
                 # Set user and home directory without $UID, $USER or $HOME tag
-                locate *config/qBittorrent/qBittorrent.conf > dirUser
+                plocate *config/qBittorrent/qBittorrent.conf > dirUser
                 dir=$(cut -d"." -f1 dirUser)
                 user=$(cut -d"/" -f3 dirUser)
                 rm dirUser
@@ -141,13 +133,13 @@ do
 
             # Check config directory
             sudo updatedb
-            dirCheck=$(locate *config/qBittorrent/qBittorrent.conf)
+            dirCheck=$(plocate *config/qBittorrent/qBittorrent.conf)
             if [ -z $dirCheck ]; then
                 echo -e "\033[1;31mqBittorrent configuration not found, launch qBittorrent client before running this script.\033[0m\n"
                 exit 1
             else
                 # Set user and home directory without $UID, $USER or $HOME tag
-                locate *config/qBittorrent/qBittorrent.conf > dirUser
+                plocate *config/qBittorrent/qBittorrent.conf > dirUser
                 dir=$(cut -d"." -f1 dirUser)
                 user=$(cut -d"/" -f3 dirUser)
                 rm dirUser
@@ -157,8 +149,8 @@ do
             rm -f $dir.local/share/Trash/files/qBittorrent-Backup-Linux.zip
             rm -f $dir.local/share/Trash/info/qBittorrent-Backup-Linux.zip.trashinfo
             sudo updatedb
-            bkp=$(locate qBittorrent-Backup-Linux.zip)
-            locate qBittorrent-Backup-Linux.zip > zipCheck
+            bkp=$(plocate qBittorrent-Backup-Linux.zip)
+            plocate qBittorrent-Backup-Linux.zip > zipCheck
             zipFile=$(awk 'END{print NR}' zipCheck)
             if [ $zipFile -gt 1 ]; then
                 clear
