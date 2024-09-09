@@ -21,12 +21,14 @@ Then run it:
 ## Video
 [![qbittorrent-backup-linux](https://i.imgur.com/9NypMuC.png)](https://www.youtube.com/watch?v=MoweTpbMKNU "qbittorrent-backup-linux")
 
+
 ## Todo
 - [x] **Fix script alignment. Completed in commit: [2b4484f](https://github.com/cantalupo555/qbittorrent-backup-linux/commit/2b4484f9c67c412080c5ced8e78a998689b7d5f1)** ✅
-- [ ] Fix dependencies on different Debian-based distributions. 🔄
-- [ ] Create a list of Linux distributions that have tested the script. 🛑
-- [ ] Make the script compatible with qBittorrent installed via flatpak. 🛑
-- [ ] Make it compatible with non-Debian distributions? ⏳
+- [x] **Fix dependencies on different Debian-based distributions. Completed in commit: [cebc5b3](https://github.com/cantalupo555/qbittorrent-backup-linux/commit/cebc5b3ccd077a6f9d1a31018c30a793a932c30b)** ✅
+- [ ] Create a list of Linux distributions that have tested the script. 🔄
+- [ ] Make the script compatible with qBittorrent installed via flatpak. 🔄
+- [ ] Make it compatible with non-Debian distributions. 🛑
+
 
 ###  Status
 - ✅ Task completed
