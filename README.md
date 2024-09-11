@@ -3,6 +3,8 @@
 Backup your qBitorrent client and restore anytime.
 All settings, statistics and torrent list will be saved.
 
+**This script works with qBittorrent installed via package manager and Flatpak.**
+
 First, get the script and make it executable:
 
 ```bash
@@ -23,10 +25,10 @@ Then run it:
 
 
 ## Todo
-- [x] **Fix script alignment. Completed in commit: [2b4484f](https://github.com/cantalupo555/qbittorrent-backup-linux/commit/2b4484f9c67c412080c5ced8e78a998689b7d5f1)** ✅
+- [x] **Fix script alignment. Completed in commit: [2b4484f](https://github.com/cantalupo555/qbittorrent-backup-linux/commit/2b4484f9c67c412080c5ced8e78a998689b7d5f1) [da5fd9a](https://github.com/cantalupo555/qbittorrent-backup-linux/commit/da5fd9ab9828fe615abf8b5dcdc2c4e881a3b02b)** ✅
 - [x] **Fix dependencies on different Debian-based distributions. Completed in commit: [cebc5b3](https://github.com/cantalupo555/qbittorrent-backup-linux/commit/cebc5b3ccd077a6f9d1a31018c30a793a932c30b)** ✅
 - [ ] Create a list of Linux distributions that have tested the script. 🔄
-- [ ] Make the script compatible with qBittorrent installed via flatpak. 🔄
+- [x] **Make the script compatible with qBittorrent installed via flatpak.[c7364fe](https://github.com/cantalupo555/qbittorrent-backup-linux/commit/c7364fe4398d20c25c75f03c5ca817d57a95a1a4)** ✅
 - [ ] Make it compatible with non-Debian distributions. 🛑
 
 
