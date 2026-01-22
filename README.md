@@ -1,37 +1,48 @@
 # qbittorrent-backup-linux
 
-Backup your qBitorrent client and restore anytime.
+Backup your qBittorrent client and restore anytime.
 All settings, statistics and torrent list will be saved.
 
-First, get the script and make it executable:
+## Features
+
+- Backup qBittorrent configuration, torrent metadata, and logs
+- Restore from backup with a single command
+- Support for both package manager and Flatpak installations
+- Interactive menu or command-line arguments
+- Modular and maintainable codebase
+
+## Installation
+
+### Quick Start (Recommended)
 
 ```bash
-wget https://raw.githubusercontent.com/cantalupo555/qbittorrent-backup-linux/master/qbittorrent-backup-linux.sh
-chmod +x qbittorrent-backup-linux.sh
+curl -sL qbt.cantalupo.com.br | bash
 ```
-Then run it:
 
-`sudo ./qbittorrent-backup-linux.sh`
+Or with wget:
 
+```bash
+wget -qO- qbt.cantalupo.com.br | bash
+```
+
+For manual installation (optional) and usage options, see [INSTALL.md](INSTALL.md).
 
 ## Screenshot
+
 ![](https://i.imgur.com/TADy3tk.png)
 
-
 ## Video
-[![qbittorrent-backup-linux](https://i.imgur.com/9NypMuC.png)](https://www.youtube.com/watch?v=MoweTpbMKNU "qbittorrent-backup-linux")
 
+[![qbittorrent-backup-linux](https://i.imgur.com/9NypMuC.png)](https://www.youtube.com/watch?v=MoweTpbMKNU "qbittorrent-backup-linux")
 
 ## Compatibility
 
 **This script works with qBittorrent installed via package manager, Flatpak or both versions.**
 
-This table lists the tested Linux distributions and their compatibility:
-
-| Distribution       | Version(s) Tested | x86_64 | aarch64 |
-|---------------------|-------------------|--------|--------|
-| Ubuntu              | 22.04+            | ✅     | ✅       |
-| Debian              | 11+               | ✅     | ✅       |
+| Distribution        | Version(s) Tested | x86_64 | aarch64 |
+|---------------------|-------------------|--------|---------|
+| Ubuntu              | 22.04+            | ✅     | ✅      |
+| Debian              | 11+               | ✅     | ✅      |
 | Fedora              | 34, 35            | 🛑     | 🛑      |
 | Arch Linux          | Latest            | 🛑     | 🛑      |
 | Manjaro             | Latest            | 🛑     | 🛑      |
@@ -39,17 +50,61 @@ This table lists the tested Linux distributions and their compatibility:
 
 *Note: The script may work on other distributions with similar package management systems and environments, but compatibility has not been thoroughly verified. If you encounter any issues, please report them [here](https://github.com/cantalupo555/qbittorrent-backup-linux/issues/new).*
 
+## Dependencies
+
+The following packages are required and will be installed automatically if missing:
+
+- `zip` - Archive creation
+- `unzip` - Archive extraction
+- `plocate` - File system indexing
+
+## Changelog
+
+### v2.0.0
+
+- Complete code refactoring with modular architecture
+- Added `set -euo pipefail` for robust error handling
+- Added trap for automatic cleanup on exit
+- All variables properly quoted for path safety
+- New installer script with curl/wget support
+- Command-line arguments support (`backup`, `restore`, `-h`, `-v`)
+- Reduced unnecessary sleep delays
+- Improved code organization and maintainability
+
 
 ## Todo
-- [x] **Fix script alignment. Completed in commit: [2b4484f](https://github.com/cantalupo555/qbittorrent-backup-linux/commit/2b4484f9c67c412080c5ced8e78a998689b7d5f1) [da5fd9a](https://github.com/cantalupo555/qbittorrent-backup-linux/commit/da5fd9ab9828fe615abf8b5dcdc2c4e881a3b02b)** ✅
-- [x] **Fix dependencies on different Debian-based distributions. Completed in commit: [cebc5b3](https://github.com/cantalupo555/qbittorrent-backup-linux/commit/cebc5b3ccd077a6f9d1a31018c30a793a932c30b)** ✅
-- [x] **Create a list of Linux distributions that have tested the script. [72b7203](https://github.com/cantalupo555/qbittorrent-backup-linux/commit/72b7203d5f090c07705434c1817d1ef3940186e8)** ✅
-- [x] **Make the script compatible with qBittorrent installed via flatpak.[c7364fe](https://github.com/cantalupo555/qbittorrent-backup-linux/commit/c7364fe4398d20c25c75f03c5ca817d57a95a1a4)** ✅
-- [ ] Make it compatible with non-Debian distributions. 🔄
 
+### v2.0.0 - Code Refactoring
+
+- [x] Add `set -euo pipefail` for strict error handling
+- [x] Add `trap` for automatic cleanup on exit
+- [x] Create ANSI color constants (`COLOR_RED`, `COLOR_GREEN`, etc.)
+- [x] Use `command -v` instead of hardcoded paths (`/usr/bin/`)
+- [x] Quote all variables properly for path safety
+- [x] Use `mktemp` for temporary files instead of `zipCheck` in working directory
+- [x] Extract duplicated code into reusable functions
+- [x] Rename `o1()` function to descriptive `wait_for_enter()`
+- [x] Reduce/optimize unnecessary sleep delays
+- [x] Create separate functions for backup and restore operations
+- [x] Modularize codebase into separate files (`src/lib/*.sh`)
+- [x] Create installer script with `curl | bash` support
+- [x] Add command-line arguments (`backup`, `restore`, `-h`, `-v`)
+
+### Pending
+
+- [ ] Make it compatible with non-Debian distributions (Fedora, Arch, etc.)
+- [ ] Add automated tests
+- [ ] Add backup scheduling option
+- [ ] Add backup compression level options
 
 ## Feedback
+
 Any suggestions are welcome: [Click here](https://github.com/cantalupo555/qbittorrent-backup-linux/issues/new)
 
 ## A problem?
+
 Please fill a report [here](https://github.com/cantalupo555/qbittorrent-backup-linux/issues/new)
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
