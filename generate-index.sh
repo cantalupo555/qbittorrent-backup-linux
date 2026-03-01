@@ -517,7 +517,7 @@ cat > index.html << 'EOF'
     <header class="header">
       <div class="header-badge">
         <span class="dot"></span>
-        <span>v2.0.0 — Open Source</span>
+        <span>v2.1.0 — Open Source</span>
       </div>
 
       <h1 class="logo">

@@ -56,11 +56,10 @@ The following packages are required and will be installed automatically if missi
 
 - `zip` - Archive creation
 - `unzip` - Archive extraction
-- `plocate` - File system indexing
 
 ## Changelog
 
-### v2.0.0
+### v2.1.0
 
 - Complete code refactoring with modular architecture
 - Added `set -euo pipefail` for robust error handling
@@ -74,7 +73,7 @@ The following packages are required and will be installed automatically if missi
 
 ## Todo
 
-### v2.0.0 - Code Refactoring
+### v2.1.0 - Code Refactoring
 
 - [x] Add `set -euo pipefail` for strict error handling
 - [x] Add `trap` for automatic cleanup on exit

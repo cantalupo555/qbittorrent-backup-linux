@@ -18,7 +18,7 @@ trap _cleanup EXIT INT TERM
 # VERSION
 # ============================================================================
 
-readonly VERSION="2.0.0"
+readonly VERSION="2.1.0"
 readonly SCRIPT_NAME="qbittorrent-backup-linux"
 readonly BACKUP_FILENAME="qBittorrent-Backup-Linux"
 
@@ -53,7 +53,6 @@ print_warning() { echo -e "${COLOR_YELLOW}$1${COLOR_RESET}"; }
 
 TEMP_DIR=""
 USER_HOME_DIR=""
-CONFIG_USER=""
 IS_FLATPAK=false
 FLATPAK_DIR=""
 
@@ -129,14 +128,6 @@ get_config_dir() {
 # DEPENDENCY CHECKS
 # ============================================================================
 
-check_root() {
-    if [[ $EUID -ne 0 ]]; then
-        print_error "This script must be run as root."
-        echo "Try: curl -sL qbt.cantalupo.com.br | sudo bash"
-        exit 1
-    fi
-}
-
 check_command() {
     local cmd="$1" pkg="${2:-$1}"
     if ! _exists "${cmd}"; then
@@ -160,10 +151,8 @@ check_qbittorrent() {
 }
 
 check_dependencies() {
-    check_root
     check_command "zip"
     check_command "unzip"
-    check_command "plocate"
     check_qbittorrent
 }
 
@@ -173,11 +162,10 @@ check_dependencies() {
 
 parse_config_path() {
     local config_path="$1"
-    USER_HOME_DIR=$(echo "${config_path}" | sed 's|\(/home/[^/]*\)/.*|\1/|')
-    CONFIG_USER=$(echo "${USER_HOME_DIR}" | cut -d'/' -f3)
-    if echo "${config_path}" | grep -q "org.qbittorrent.qBittorrent"; then
+    USER_HOME_DIR="${HOME}/"
+    if [[ "${config_path}" == *"org.qbittorrent.qBittorrent"* ]]; then
         IS_FLATPAK=true
-        FLATPAK_DIR=$(echo "${config_path}" | sed 's|\(.*org\.qbittorrent\.qBittorrent\).*|\1/|')
+        FLATPAK_DIR="${HOME}/.var/app/org.qbittorrent.qBittorrent/"
     else
         IS_FLATPAK=false
         FLATPAK_DIR=""
@@ -216,12 +204,16 @@ select_installation() {
 
 detect_qbittorrent_config() {
     local config_paths=()
-    echo "Please wait. Detecting qBittorrent configuration..."
-    print_error "This may take a few seconds."
-    updatedb
-    clear
-    mapfile -t config_paths < <(plocate "*config/qBittorrent/qBittorrent.conf" 2>/dev/null || true)
-    
+    local home_dir="${HOME}"
+
+    echo "Detecting qBittorrent configuration..."
+
+    [[ -f "${home_dir}/.config/qBittorrent/qBittorrent.conf" ]] && \
+        config_paths+=("${home_dir}/.config/qBittorrent/qBittorrent.conf")
+
+    [[ -f "${home_dir}/.var/app/org.qbittorrent.qBittorrent/config/qBittorrent/qBittorrent.conf" ]] && \
+        config_paths+=("${home_dir}/.var/app/org.qbittorrent.qBittorrent/config/qBittorrent/qBittorrent.conf")
+
     if [[ ${#config_paths[@]} -eq 0 ]]; then
         print_error "qBittorrent configuration not found."
         echo "Launch qBittorrent client before running this script."
@@ -237,7 +229,6 @@ detect_qbittorrent_config() {
 
 show_config_info() {
     echo "Selected directory: ${USER_HOME_DIR}"
-    echo "Selected user: ${CONFIG_USER}"
     [[ "${IS_FLATPAK}" == "true" ]] && echo -e "Flatpak directory: ${FLATPAK_DIR}\n"
     sleep 2
 }
@@ -270,8 +261,7 @@ perform_backup() {
     cd "${USER_HOME_DIR}" || exit 1
     zip -r -0 "${BACKUP_FILENAME}.zip" "${BACKUP_FILENAME}/"
     rm -rf "${backup_dir}/"
-    chown "${CONFIG_USER}:${CONFIG_USER}" "${backup_zip}"
-    
+
     clear
     print_success "\nBackup completed.\n"
     echo "Backup saved to:"
@@ -297,30 +287,48 @@ do_backup() {
 # ============================================================================
 
 find_backup_file() {
+    local home_dir="${HOME}"
+    local current_dir
+    local -a backup_files=()
+    local -a unique_files=()
+    declare -A seen_files=()
+
+    current_dir=$(pwd)
+
     local trash_file="${USER_HOME_DIR}.local/share/Trash/files/${BACKUP_FILENAME}.zip"
     local trash_info="${USER_HOME_DIR}.local/share/Trash/info/${BACKUP_FILENAME}.zip.trashinfo"
     rm -f "${trash_file}" "${trash_info}" 2>/dev/null || true
-    updatedb
-    
-    TEMP_DIR=$(mktemp -d)
-    local zip_check="${TEMP_DIR}/zip_check"
-    plocate "${BACKUP_FILENAME}.zip" > "${zip_check}" 2>/dev/null || true
-    
-    local file_count
-    file_count=$(wc -l < "${zip_check}")
-    
-    if [[ "${file_count}" -gt 1 ]]; then
+
+    while IFS= read -r file_path; do
+        [[ -n "${file_path}" ]] && backup_files+=("${file_path}")
+    done < <(find "${home_dir}" -type f -name "${BACKUP_FILENAME}.zip" 2>/dev/null)
+
+    if [[ "${current_dir}" != "${home_dir}" && "${current_dir}" != "${home_dir}/"* ]]; then
+        while IFS= read -r file_path; do
+            [[ -n "${file_path}" ]] && backup_files+=("${file_path}")
+        done < <(find "${current_dir}" -type f -name "${BACKUP_FILENAME}.zip" 2>/dev/null)
+    fi
+
+    for file_path in "${backup_files[@]}"; do
+        if [[ -z "${seen_files["${file_path}"]+_}" ]]; then
+            seen_files["${file_path}"]=1
+            unique_files+=("${file_path}")
+        fi
+    done
+
+    if [[ ${#unique_files[@]} -gt 1 ]]; then
         clear
         print_error "Duplicate backup file."
         print_error "Keep only 1 backup file in system.\n"
-        cat "${zip_check}"
+        printf '%s\n' "${unique_files[@]}"
         exit 1
-    elif [[ "${file_count}" -eq 0 ]]; then
+    elif [[ ${#unique_files[@]} -eq 0 ]]; then
         clear
         print_error "${BACKUP_FILENAME}.zip file not found.\n"
         exit 1
     fi
-    cat "${zip_check}"
+
+    echo "${unique_files[0]}"
 }
 
 perform_restore() {
@@ -333,8 +341,7 @@ perform_restore() {
     cd "${USER_HOME_DIR}" || exit 1
     rm -rf "${backup_dir}/"
     unzip "${backup_path}"
-    chown -R "${CONFIG_USER}:${CONFIG_USER}" "${BACKUP_FILENAME}/"
-    
+
     if [[ ! -f "${backup_dir}/qBittorrent/qBittorrent.conf" ]]; then
         print_error "Failed to restore."
         rm -rf "${backup_dir}/"
@@ -343,18 +350,15 @@ perform_restore() {
     
     rm -rf "${config_dir}"/*
     cp -R "${backup_dir}/qBittorrent"/* "${config_dir}/"
-    chown -R "${CONFIG_USER}:${CONFIG_USER}" "${config_dir}/"
-    
+
     if [[ -d "${data_dir}/BT_backup" ]]; then
         rm -rf "${data_dir}/BT_backup"/*
         cp -R "${backup_dir}/BT_backup"/* "${data_dir}/BT_backup/"
-        chown -R "${CONFIG_USER}:${CONFIG_USER}" "${data_dir}/BT_backup/"
     fi
-    
+
     if [[ -d "${data_dir}/logs" ]]; then
         rm -rf "${data_dir}/logs"/*
         cp -R "${backup_dir}/logs"/* "${data_dir}/logs/"
-        chown -R "${CONFIG_USER}:${CONFIG_USER}" "${data_dir}/logs/"
     fi
     
     rm -rf "${backup_dir}/"
