@@ -104,9 +104,11 @@ do_uninstall() {
 
 show_menu() {
     clear
+    local menu_title="qBittorrent Backup Linux v${VERSION}"
+
     echo "_________________________________________________________________________"
     echo "|                                                                       |"
-    echo "| $(_green "qBittorrent Backup Linux") v${VERSION}                                  |"
+    printf '| %b%-69s%b |\n' "${COLOR_GREEN}" "${menu_title}" "${COLOR_RESET}"
     echo "|_______________________________________________________________________|"
     echo "|                                                                       |"
     echo "| 1 - Backup qBittorrent                                                |"
