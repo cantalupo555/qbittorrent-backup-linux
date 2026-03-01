@@ -51,7 +51,7 @@ trap cleanup EXIT INT TERM
 # VERSION INFO
 # ============================================================================
 
-readonly VERSION="2.0.0"
+readonly VERSION="2.1.0"
 readonly SCRIPT_NAME="qbittorrent-backup-linux"
 readonly INSTALL_DIR="/usr/local/share/qbittorrent-backup-linux"
 readonly BIN_LINK="/usr/local/bin/qbittorrent-backup"
